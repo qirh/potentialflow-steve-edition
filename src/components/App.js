@@ -30,10 +30,12 @@ import {
 } from '../constants/flowTypes';
 import flowToTeX from '../constants/flowToTeX';
 
+// https://plotly.com/javascript/colorscales/
+
 const SIZE = 20;
 const flowViewColorScales = {
-  vp: 'YIOrRd',
-  stream: 'YIGnBu',
+  vp: 'Oranges',
+  stream: 'aggrnyl',
 };
 const flowNavOptions = [{
   name: 'Add Preset',
@@ -206,7 +208,7 @@ const makeData = (zData, flowView) =>
     colorscale: flowViewColorScales[flowView],
     line: {
       smoothing: 0.6,
-      width: 1.5,
+      width: 5,
     },
     connectgaps: true,
   }];
