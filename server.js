@@ -12,7 +12,7 @@ const http = require('http');
 const app = express();
 
 const argv = require('minimist')(process.argv.slice(2));
-const PORT = Number(argv.p) || Number(argv.port) || 3000;
+const PORT = Number(argv.p) || Number(argv.port) || 8080;
 const production = Boolean(argv.production);
 app.set('port', PORT);
 
