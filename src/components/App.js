@@ -23,8 +23,6 @@ import RotatingCylinder from './FlowElements/Preset/RotatingCylinder';
 
 import {
   UNIFORM,
-  POINT_SOURCE,
-  POINT_VORTEX,
   DIPOLE,
   CORNER,
 } from '../constants/flowTypes';
@@ -33,7 +31,7 @@ import flowToTeX from '../constants/flowToTeX';
 // https://plotly.com/javascript/colorscales/
 
 const SIZE = 20;
-const flowViewColorScales = {
+const flowViewColorScales = { // SALEH this is the color
   vp: 'Oranges',
   stream: 'aggrnyl',
 };
@@ -208,7 +206,7 @@ const makeData = (zData, flowView) =>
     colorscale: flowViewColorScales[flowView],
     line: {
       smoothing: 0.6,
-      width: 5,
+      width: 1, // saleh WIDTH
     },
     connectgaps: true,
   }];
