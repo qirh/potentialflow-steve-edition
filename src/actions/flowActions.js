@@ -43,6 +43,15 @@ export const editFlowView = view => ({
   view,
 });
 
+export const editColor = view => ({
+  type: 'EDIT_COLOR',
+  view,
+});
+export const editLineWidth = view => ({
+  type: 'EDIT_LINE_WIDTH',
+  view,
+});
+
 export const undoFlowHistory = () => ({
   type: 'UNDO_FLOW_HISTORY',
 });
