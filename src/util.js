@@ -40,6 +40,14 @@ export const editFlowView = (view) => {
   store.dispatch(flowActions.editFlowView(view));
 };
 
+export const editColor = (view) => {
+  store.dispatch(flowActions.editColor(view));
+};
+
+export const editLineWidth = (view) => {
+  store.dispatch(flowActions.editLineWidth(view));
+};
+
 export const undoFlowHistory = () => {
   store.dispatch(flowActions.undoFlowHistory());
 };

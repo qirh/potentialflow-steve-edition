@@ -15,6 +15,8 @@ const defaultState = {
   }],
   historyIndex: 0,
   flowView: 'stream',
+  lineWidth: 2,
+  color: "red",
   flowForms: {
     [UNIFORM]: {
       inputs: {
@@ -73,7 +75,7 @@ const getHistoryName = (flow, prefix) => {
       return prefix + 'Uniform Flow';
     case POINT_SOURCE:
       if (flow.m >= 0) {
-        return prefix + 'Point Souce Flow';
+        return prefix + 'Point Source Flow';
       }
       return prefix + 'Point Sink Flow';
     case POINT_VORTEX:
@@ -226,6 +228,16 @@ export default (state = defaultState, action) => {
         flowView: action.view
       });
 
+    case 'EDIT_COLOR':
+      return Object.assign({}, state, {
+        color: action.view
+      });
+
+    case 'EDIT_LINE_WIDTH':
+      return Object.assign({}, state, {
+        lineWidth: action.view
+      });
+      
     case 'UNDO_FLOW_HISTORY':
       historyIndex = state.historyIndex - 1;
       if(historyIndex >= 0) {

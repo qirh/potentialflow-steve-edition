@@ -193,7 +193,7 @@ const makeFlowFcnMap = (activeFlowIds, activeFlowMap) => {
  *        affects colorscale of the plot
  * @return Plotly data, fit for a contour plot
  */
-const makeData = (zData, flowView) =>
+const makeData = (zData, flowView, lineWidth) =>
   [{
     z: zData,
     x: xCoords,
@@ -206,7 +206,7 @@ const makeData = (zData, flowView) =>
     colorscale: flowViewColorScales[flowView],
     line: {
       smoothing: 0.6,
-      width: 1, // saleh WIDTH
+      width: lineWidth,
     },
     connectgaps: true,
   }];
@@ -237,6 +237,7 @@ const mapStateToProps = state => ({
   activeFlowIds: state.flow.activeFlowIds,
   activeFlowMap: state.flow.activeFlowMap,
   flowView: state.flow.flowView,
+  lineWidth: state.flow.lineWidth,
 });
 
 class App extends Component {
@@ -264,14 +265,16 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { location, flowView } = this.props;
+    const { location, flowView, lineWidth } = this.props;
+    console.log("componentDidMount -- " + lineWidth);
+
     if (location.search) {
       const decoded = decodeSearchString(location.search.replace('?', ''));
       const { flowIds, flowMap, maxIndex } = decoded;
       bootstrapFlows(flowIds, flowMap, maxIndex);
     } else {
       const zData = makeZData(() => 0, xCoords, yCoords);
-      const data = makeData(zData, this.props.flowView);
+      const data = makeData(zData, this.props.flowView, this.props.lineWidth);
       this.renderNewPlot(this.graph, data, layout);
     }
     this.$mainNav = $('.main-nav');
@@ -290,8 +293,9 @@ class App extends Component {
       activeFlowMap,
       flowView,
       history,
+      lineWidth,
     } = nextProps;
-
+    console.log("componentWillReceiveProps -- " + lineWidth);
     // disable farFieldPressure if a corner flow was added
     if (
       this.state.farFieldActive &&
@@ -304,11 +308,12 @@ class App extends Component {
     if (
       activeFlowIds !== this.props.activeFlowIds ||
       activeFlowMap !== this.props.activeFlowMap ||
-      flowView !== this.props.flowView
+      flowView !== this.props.flowView ||
+      lineWidth !== this.props.lineWidth
     ) {
       clearTimeout(this.activeFlowTimer);
       this.activeFlowTimer = setTimeout(() => {
-        this.applyData(flowView, activeFlowIds, activeFlowMap);
+        this.applyData(flowView, activeFlowIds, activeFlowMap, lineWidth);
         if (activeFlowIds.length === 0) {
           history.push('/');
         } else {
@@ -318,11 +323,11 @@ class App extends Component {
     }
   }
 
-  applyData = (flowView, flowIds, flowMap) => {
+  applyData = (flowView, flowIds, flowMap, lineWidth) => {
     const flowFcnMap = makeFlowFcnMap(flowIds, flowMap);
     const flowFcn = flowFcnMap[flowView];
     const zData = makeZData(flowFcn, xCoords, yCoords);
-    const newData = makeData(zData, flowView);
+    const newData = makeData(zData, flowView, lineWidth);
     this.renderNewPlot(this.graph, newData, layout);
 
     const flowStr = makeFlowStr(flowView, flowIds, flowMap);

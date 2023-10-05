@@ -6,6 +6,8 @@ import {
   undoFlowHistory,
   redoFlowHistory,
   editFlowView,
+  editColor,
+  editLineWidth,
 } from '../util';
 import CloseButton from './CloseButton';
 
@@ -14,6 +16,8 @@ const mapStateToProps = (state) => ({
   historyIndex: state.flow.historyIndex,
   history: state.flow.history,
   flowView: state.flow.flowView,
+  color: state.flow.color,
+  lineWidth: state.flow.lineWidth,
 });
 
 class Nav extends Component {
@@ -23,15 +27,17 @@ class Nav extends Component {
       history,
       alerts,
       flowView,
+      color,
+      lineWidth,
     } = this.props;
     const disableUndo = historyIndex <= 0;
     const disableRedo = historyIndex >= history.length - 1;
 
     return (
       <div className="nav-controls flexbox align-items-center">
-        <div className="flex0" style={{ paddingRight: '12px' }}>
+        <div className="flex0" style={{ paddingRight: '12px', display: "flex" }}>
           <select
-            className="form-control"
+            className="form-control form0"
             value={flowView}
             onChange={e => editFlowView(e.target.value)}>
             <option value="vp">Velocity Potential</option>
@@ -39,8 +45,18 @@ class Nav extends Component {
             <option value="xVel">X Velocity</option>
             <option value="yVel">Y Velocity</option>
           </select>
+          <select
+            className="form-control form0"
+            value={color}
+            onChange={e => editColor(e.target.value)}>
+            <option value="blue">Blue (doesn't work yet)</option>
+            <option value="red">Red (doesn't work yet)</option>
+            <option value="grey">Grey (doesn't work yet)</option>
+            <option value="orange">Orange (doesn't work yet)</option>
+          </select>
+          <input type="number" min="1" max="10" value={lineWidth} onChange={e => editLineWidth(e.target.value)}></input>
         </div>
-        <div className="flex1"></div>
+        <div className="flex1 form0"></div>
         <ReactCSSTransitionGroup
           transitionName="alert-box"
           transitionEnterTimeout={200}
