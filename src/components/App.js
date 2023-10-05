@@ -266,7 +266,6 @@ class App extends Component {
 
   componentDidMount() {
     const { location, flowView, lineWidth } = this.props;
-    console.log("componentDidMount -- " + lineWidth);
 
     if (location.search) {
       const decoded = decodeSearchString(location.search.replace('?', ''));
@@ -295,7 +294,7 @@ class App extends Component {
       history,
       lineWidth,
     } = nextProps;
-    console.log("componentWillReceiveProps -- " + lineWidth);
+
     // disable farFieldPressure if a corner flow was added
     if (
       this.state.farFieldActive &&
